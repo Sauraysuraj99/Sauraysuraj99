@@ -1,3 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Suraj Kumar | Java Full Stack Developer | Animated Portfolio</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c10;
+            font-family: 'Inter', sans-serif;
+            color: #edeff2;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* animated gradient mesh background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(25, 30, 45, 0.9), #07090e);
+        }
+
+        .animated-bg::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle at 40% 50%, rgba(100, 80, 200, 0.18), transparent 70%);
+            animation: slowDrift 28s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .animated-bg::after {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -30%;
+            left: -30%;
+            background: radial-gradient(ellipse at 80% 70%, rgba(0, 200, 180, 0.08), transparent 60%);
+            animation: slowDriftReverse 32s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes slowDrift {
+            0% {
+                transform: translate(0%, 0%) rotate(0deg);
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translate(4%, 6%) rotate(4deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes slowDriftReverse {
+            0% {
+                transform: translate(0%, 0%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-5%, 3%) rotate(-3deg);
+            }
+        }
+
+        /* floating particles (code-like) */
+        .code-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.2;
+            color: #5f7f9e;
+            white-space: nowrap;
+            user-select: none;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.3;
+            }
+
+            80% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-20vh) translateX(40px) rotate(8deg);
+                opacity: 0;
+            }
+        }
+
+        /* layout */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+        }
+
+        /* hero section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 1.2rem;
+            padding: 2rem 1rem;
+        }
+
+        .avatar-wrapper {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 210, 200, 0.6);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.5), 0 0 0 6px rgba(0, 210, 200, 0.1);
+            transition: transform 0.3s ease;
+            object-fit: cover;
+        }
+
+        .avatar:hover {
+            transform: scale(1.02);
+        }
+
+        .glow-text {
+            background: linear-gradient(135deg, #C0F2FF, #A5D8FF, #7B9EFF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .typed-container {
+            font-size: 1.6rem;
+            font-weight: 500;
+            min-height: 4rem;
+            color: #bfd9ff;
+        }
+
+        .highlight {
+            color: #6fe5ff;
+            border-bottom: 2px solid #3aa8ff;
+            display: inline-block;
+        }
+
+        .tagline {
+            max-width: 650px;
+            color: #b0bbd4;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1.2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(20, 30, 45, 0.7);
+            backdrop-filter: blur(4px);
+            border: 0.5px solid rgba(100, 150, 250, 0.3);
+            color: #eef4ff;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, #2a6fdb, #3b82f6);
+            border: none;
+            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(95deg, #3b7beb, #4f93ff);
+            box-shadow: 0 15px 25px -8px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        /* section styles */
+        section {
+            margin: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 1.8rem;
+            background: linear-gradient(145deg, #6ee7ff, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-badge {
+            background: #11161f;
+            padding: 0.6rem 1.3rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+            border: 1px solid #2a3342;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tech-badge i {
+            font-size: 1rem;
+            color: #3b82f6;
+        }
+
+        .tech-badge:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            background: #0f1825;
+        }
+
+        /* repo cards animation */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.6rem;
+            margin-top: 2rem;
+        }
+
+        .repo-card {
+            background: rgba(15, 22, 33, 0.65);
+            backdrop-filter: blur(6px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid rgba(70, 130, 200, 0.2);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            animation: fadeUp 0.6s ease backwards;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(20, 30, 48, 0.8);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .repo-name {
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-desc {
+            font-size: 0.85rem;
+            color: #9cb0d0;
+            margin: 0.6rem 0 1rem;
+            line-height: 1.4;
+        }
+
+        .lang-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e34c26;
+            margin-right: 6px;
+        }
+
+        /* timeline stats */
+        .stats-wrap {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: rgba(12, 18, 28, 0.6);
+            border-radius: 2rem;
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid #2a3342;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #8bb5ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            font-size: 1.6rem;
+            color: #9aaec9;
+            transition: 0.2s;
+        }
+
+        .social-link:hover {
+            color: #3b82f6;
+            transform: translateY(-3px);
+        }
+
+        /* animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-once {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .typed-container {
+                font-size: 1.2rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .stats-wrap {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="code-particles" id="particlesContainer"></div>
+
+    <main class="container">
+        <!-- Hero Animation Section -->
+        <div class="hero">
+            <div class="avatar-wrapper">
+                <img class="avatar" src="https://avatars.githubusercontent.com/u/176518497?v=4" alt="Suraj Kumar">
+            </div>
+            <h1>
+                <span class="glow-text">Suraj Kumar</span>
+            </h1>
+            <div class="typed-container">
+                <span id="dynamicRole" class="highlight"></span>
+            </div>
+            <p class="tagline">
+                Java Full Stack Developer · Spring Boot · React · Generative AI Enthusiast <br>
+                Building scalable systems & mindful code.
+            </p>
+            <div class="btn-group">
+                <a href="https://github.com/Sauraysuraj99" target="_blank" class="btn btn-primary"><i
+                        class="fab fa-github"></i> GitHub</a>
+                <a href="https://www.linkedin.com/in/suraj-kumar-168230250/" target="_blank" class="btn btn-outline"><i
+                        class="fab fa-linkedin-in"></i> LinkedIn</a>
+                <a href="https://radiant-bunny-949c03.netlify.app/" target="_blank" class="btn btn-outline"><i
+                        class="fas fa-globe"></i> Portfolio</a>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section with animation on scroll -->
+        <section>
+            <div class="section-title">
+                <i class="fas fa-code"></i>
+                <span>Tech Toolbox</span>
+            </div>
+            <div class="tech-grid" id="techStack"></div>
+        </section>
+
+        <!-- Pinned Repositories (inspired from profile) -->
+        <section>
+            <div class="section-title">
+                <i class="fas fa-star"></i>
+                <span>Popular Repositories</span>
+            </div>
+            <div class="repo-grid" id="repoList"></div>
+        </section>
+
+        <!-- GitHub Stats Insight with animated counters -->
+        <section>
+            <div class="section-title">
+                <i class="fas fa-chart-line"></i>
+                <span>Dev Pulse</span>
+            </div>
+            <div class="stats-wrap">
+                <div class="stat-item">
+                    <div class="stat-number" id="repoCount">56</div>
+                    <div>Public Repos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="followersCount">4</div>
+                    <div>Followers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="followingCount">10</div>
+                    <div>Following</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="contributionYear">2026</div>
+                    <div>Active Year</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connect Footer -->
+        <div class="footer-social">
+            <a href="https://github.com/Sauraysuraj99" class="social-link" target="_blank"><i
+                    class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/suraj-kumar-168230250/" class="social-link" target="_blank"><i
+                    class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/suraj.sauray_raj99" class="social-link" target="_blank"><i
+                    class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/share/19X62owCHf/" class="social-link" target="_blank"><i
+                    class="fab fa-facebook-f"></i></a>
+            <a href="mailto:sauraysuraj@gmail.com" class="social-link" target="_blank"><i
+                    class="fas fa-envelope"></i></a>
+        </div>
+        <p style="text-align: center; margin-top: 3rem; font-size: 0.75rem; opacity: 0.6;">
+            ⚡ Debugging code logically & life mindfully — Suraj Kumar
+        </p>
+    </main>
+
+    <script>
+        // ----- dynamic typing animation (leading role)
+        const roles = [
+            "Java Full Stack Developer",
+            "Spring Boot & React Architect",
+            "Backend Systems Designer",
+            "Generative AI Explorer",
+            "Open Source Contributor"
+        ];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const dynamicSpan = document.getElementById("dynamicRole");
+
+        function typeEffect() {
+            const currentRole = roles[roleIndex];
+            if (isDeleting) {
+                dynamicSpan.innerText = currentRole.substring(0, charIndex - 1);
+                charIndex--;
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                    setTimeout(typeEffect, 300);
+                } else {
+                    setTimeout(typeEffect, 60);
+                }
+            } else {
+                dynamicSpan.innerText = currentRole.substring(0, charIndex + 1);
+                charIndex++;
+                if (charIndex === currentRole.length) {
+                    isDeleting = true;
+                    setTimeout(typeEffect, 1800);
+                } else {
+                    setTimeout(typeEffect, 90);
+                }
+            }
+        }
+        typeEffect();
+
+        // ----- floating code particles (JavaScript, Java, etc)
+        const particles = ["{ code; }", "() => {}", "<React />", "SpringBoot", "JDBC", "MySQL", "✨ DevOps", "💻 fullstack", "🚀 deploy", "⚡ microservices", "public static void", "npm start"];
+        const particleContainer = document.getElementById("particlesContainer");
+        for (let i = 0; i < 38; i++) {
+            const particle = document.createElement("div");
+            particle.className = "particle";
+            const randomText = particles[Math.floor(Math.random() * particles.length)];
+            particle.innerText = randomText;
+            const size = 0.7 + Math.random() * 0.7;
+            particle.style.fontSize = `${size}rem`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${8 + Math.random() * 15}s`;
+            particle.style.animationDelay = `${Math.random() * 15}s`;
+            particle.style.opacity = `${0.1 + Math.random() * 0.25}`;
+            particleContainer.appendChild(particle);
+        }
+
+        // Tech stack data fully aligned with your profile (Java, spring, react, sql, git)
+        const techStackList = [
+            { name: "Java", icon: "fab fa-java" },
+            { name: "Spring Boot", icon: "fas fa-leaf" },
+            { name: "Hibernate", icon: "fas fa-database" },
+            { name: "JavaScript", icon: "fab fa-js" },
+            { name: "React", icon: "fab fa-react" },
+            { name: "HTML5/CSS3", icon: "fab fa-html5" },
+            { name: "MySQL", icon: "fas fa-database" },
+            { name: "MongoDB", icon: "fas fa-leaf" },
+            { name: "Git/GitHub", icon: "fab fa-git-alt" },
+            { name: "Docker", icon: "fab fa-docker" },
+            { name: "REST APIs", icon: "fas fa-plug" },
+            { name: "Tailwind CSS", icon: "fas fa-paintbrush" }
+        ];
+
+        const techContainer = document.getElementById("techStack");
+        techStackList.forEach(tech => {
+            const badge = document.createElement("div");
+            badge.className = "tech-badge";
+            badge.innerHTML = `<i class="${tech.icon}"></i> ${tech.name}`;
+            techContainer.appendChild(badge);
+        });
+
+        // Repositories data based on your pinned repos from profile
+        const repositories = [
+            { name: "Sauraysuraj99", description: "✨ GitHub profile README — config & bio.", language: "Markdown", color: "#563d7c", url: "https://github.com/Sauraysuraj99/Sauraysuraj99" },
+            { name: "PORTFOLIOFILE", description: "Personal portfolio frontend showcase.", language: "HTML", color: "#e34c26", url: "https://github.com/Sauraysuraj99/PORTFOLIOFILE" },
+            { name: "portfollio-demo", description: "First repository demo — learning journey.", language: "CSS", color: "#563d7c", url: "https://github.com/Sauraysuraj99/portfollio-demo" },
+            { name: "Profile-demo", description: "Interactive profile page demo.", language: "HTML", color: "#e34c26", url: "https://github.com/Sauraysuraj99/Profile-demo" },
+            { name: "PROFILE--Portfolio", description: "PROFILE modern portfolio design.", language: "HTML", color: "#e34c26", url: "https://github.com/Sauraysuraj99/PROFILE--Portfolio" },
+            { name: "PORTFOLLIOPROFILE-Suraj", description: "Advanced dev portfolio concept.", language: "JavaScript", color: "#f1e05a", url: "https://github.com/Sauraysuraj99/PORTFOLLIOPROFILE-Suraj" }
+        ];
+
+        const repoGrid = document.getElementById("repoList");
+        repositories.forEach((repo, idx) => {
+            const card = document.createElement("div");
+            card.className = "repo-card";
+            card.style.animationDelay = `${idx * 0.05}s`;
+            card.innerHTML = `
+      <div class="repo-name">
+        <i class="fas fa-book-open"></i>
+        <a href="${repo.url}" target="_blank" style="text-decoration: none; color: #cde1ff;">${repo.name}</a>
+      </div>
+      <div class="repo-desc">${repo.description}</div>
+      <div style="font-size: 0.75rem; display: flex; align-items: center; gap: 12px;">
+        <span><span class="lang-color" style="background: ${repo.color};"></span> ${repo.language}</span>
+        <span><i class="far fa-star"></i> ★</span>
+      </div>
+    `;
+            repoGrid.appendChild(card);
+        });
+
+        // Animated counters (from actual stats: 4 followers, 10 following, 56 repos)
+        function animateCounter(elementId, targetValue, duration = 1500) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            let start = 0;
+            const increment = targetValue / (duration / 16);
+            let current = 0;
+            const updateCounter = () => {
+                current += increment;
+                if (current < targetValue) {
+                    element.innerText = Math.floor(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.innerText = targetValue;
+                }
+            };
+            requestAnimationFrame(updateCounter);
+        }
+
+        // trigger counters when visible (lazy using intersection observer) 
+        const statSection = document.querySelector(".stats-wrap");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter("repoCount", 56);
+                    animateCounter("followersCount", 4);
+                    animateCounter("followingCount", 10);
+                    document.getElementById("contributionYear").innerText = "2026";
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.4 });
+        if (statSection) observer.observe(statSection);
+
+        // Additional small animated stats using random motion for "pulse" feel
+        const extraEffect = () => {
+            const statNumbers = document.querySelectorAll(".stat-number");
+            statNumbers.forEach(el => {
+                el.style.transition = "text-shadow 0.2s";
+                setInterval(() => {
+                    if (Math.random() > 0.85) {
+                        el.style.textShadow = "0 0 6px #3b82f6";
+                        setTimeout(() => el.style.textShadow = "none", 300);
+                    }
+                }, 1800);
+            });
+        };
+        setTimeout(extraEffect, 1000);
+
+        // Add smooth reveal for all sections on scroll
+        const revealElements = document.querySelectorAll("section, .hero, .footer-social");
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+        revealElements.forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(20px)";
+            el.style.transition = "all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+            revealObserver.observe(el);
+        });
+        // hero already visible, force reveal
+        document.querySelector(".hero").style.opacity = "1";
+        document.querySelector(".hero").style.transform = "translateY(0)";
+
+        // Also generate small glow circle moving based on mouse movement (extra polish)
+        document.addEventListener("mousemove", (e) => {
+            const glow = document.createElement("div");
+            // not heavy — just temporary effect
+            const x = e.clientX, y = e.clientY;
+            const element = document.elementFromPoint(x, y);
+            if (element && element.classList && element.classList.contains("repo-card")) {
+                element.style.transition = "box-shadow 0.1s";
+                element.style.boxShadow = "0 0 0 2px rgba(59,130,246,0.3)";
+                setTimeout(() => {
+                    if (element) element.style.boxShadow = "";
+                }, 150);
+            }
+        });
+
+        // generate dynamic year in footer
+        const yearSpan = document.createElement("span");
+        // optional extra: current year display inside footer (already there but dynamic)
+        console.log("🔥 Animation Portfolio Loaded — Java Full Stack Momentum");
+    </script>
+</body>
+
+</html>
 - 👋 Hi, I’m @Sauraysuraj99
 - 👀 I’m software developer 
 - 🌱 I’m currently working...
